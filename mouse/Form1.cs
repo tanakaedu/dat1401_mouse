@@ -27,9 +27,18 @@ namespace mouse
             // ラベル(フォーム)にマウス座標を表示
             Text = "" + cpos.X + "," + cpos.Y;
 
-            // 衝突修正
-            // asfsdafsdfasd
-            // fasfsdasdf
+            // マウス座標にラベルをくっつけてみよう。
+            label1.Left = cpos.X;
+            label1.Top = cpos.Y;
+
+
+            // ラベル2の移動
+            
+            // 跳ね返り
+
+            // マウスカーソルと重なったら
+            // タイマー停止 or 表情変更
+
 
         }
     }
