@@ -15,5 +15,17 @@ namespace mouse
         {
             InitializeComponent();
         }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            // 2次元クラスPoint型の変数cposを宣言
+            Point cpos;
+
+            // cposに、マウスのフォーム座標を取り出す
+            cpos = this.PointToClient(MousePosition);
+
+            // ラベル(フォーム)にマウス座標を表示
+            Text = "" + cpos.X + "," + cpos.Y;
+        }
     }
 }
