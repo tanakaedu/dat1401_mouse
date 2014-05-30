@@ -26,6 +26,11 @@ namespace mouse
 
             // ラベル(フォーム)にマウス座標を表示
             Text = "" + cpos.X + "," + cpos.Y;
+
+            // 衝突修正
+            // asfsdafsdfasd
+            // fasfsdasdf
+
         }
     }
 }
