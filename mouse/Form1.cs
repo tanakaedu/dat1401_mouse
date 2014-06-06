@@ -37,7 +37,9 @@ namespace mouse
             int vy = int.Parse(textBox2.Text);
             label2.Left += vx;
             label2.Top += vy;
-            if ((label2.Left < 0) || ((label2.Left+label2.Width) > ClientSize.Width))
+
+            // 跳ね返り
+            if ((label2.Left < 0) || ((label2.Left + label2.Width) > ClientSize.Width))
             {
                 label2.Left -= vx;
                 textBox1.Text = (-vx).ToString();
@@ -48,11 +50,25 @@ namespace mouse
                 textBox2.Text = (-vy).ToString();
             }
             
-            // 跳ね返り
 
             // マウスカーソルと重なったら
             // タイマー停止 or 表情変更
-
+            
+            // cpos.x：マウスのX座標
+            // cpos.y：マウスのY座標
+            // if ((条件1) && (条件2) && (条件3) && (条件4))
+            // →条件１～４まで全部成立した時のif文
+            // label2とcposの関係を確認する
+            // 条件1：cpos.xは、label2.Left以上
+            // 条件2：cpos.xは、label2.Left+label2.Width未満
+            // 条件3：cpos.yは、label2.Top以上
+            // 条件4：cpos.yは、label2.Top+label2.Height未満
+            if (    ()
+                &&  ()
+                &&  ()
+                &&  ())
+            {
+            }
 
         }
     }
