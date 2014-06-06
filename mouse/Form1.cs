@@ -27,7 +27,7 @@ namespace mouse
             // ラベル(フォーム)にマウス座標を表示
             Text = "" + cpos.X + "," + cpos.Y;
 
-            // マウス座標にラベルをくっつけてみよう
+            // マウス座標にラベルをくっつけてみよう。
             label1.Left = cpos.X;
             label1.Top = cpos.Y;
         }
