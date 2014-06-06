@@ -1,4 +1,4 @@
-ï»¿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -22,16 +22,16 @@ namespace mouse
 
             try
             {
-                // 2æ¬¡å…ƒã‚¯ãƒ©ã‚¹Pointå‹ã®å¤‰æ•°cposã‚’å®£è¨€
+                // 2ŸŒ³ƒNƒ‰ƒXPointŒ^‚Ì•Ï”cpos‚ğéŒ¾
                 Point cpos;
 
-                // cposã«ã€ãƒã‚¦ã‚¹ã®ãƒ•ã‚©ãƒ¼ãƒ åº§æ¨™ã‚’å–ã‚Šå‡ºã™
+                // cpos‚ÉAƒ}ƒEƒX‚ÌƒtƒH[ƒ€À•W‚ğæ‚èo‚·
                 cpos = this.PointToClient(MousePosition);
 
-                // ãƒ©ãƒ™ãƒ«(ãƒ•ã‚©ãƒ¼ãƒ )ã«ãƒã‚¦ã‚¹åº§æ¨™ã‚’è¡¨ç¤º
+                // ƒ‰ƒxƒ‹(ƒtƒH[ƒ€)‚Éƒ}ƒEƒXÀ•W‚ğ•\¦
                 Text = "" + cpos.X + "," + cpos.Y;
 
-                // ãƒã‚¦ã‚¹åº§æ¨™ã«ãƒ©ãƒ™ãƒ«ã‚’ãã£ã¤ã‘ã¦ã¿ã‚ˆã†
+                // ƒ}ƒEƒXÀ•W‚Éƒ‰ƒxƒ‹‚ğ‚­‚Á‚Â‚¯‚Ä‚İ‚æ‚¤
                 label1.Left = cpos.X;
                 label1.Top = cpos.Y;
                 int vx = int.Parse(textBox1.Text);
