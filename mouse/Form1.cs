@@ -18,7 +18,7 @@ namespace mouse
 
         private void Form1_Load(object sender, EventArgs e)
         {
-           
+
         }
 
         //---------------
@@ -31,7 +31,7 @@ namespace mouse
             cpos = this.PointToClient(MousePosition);
 
             //フォームにマウス座標を表示
-            Text= "" + cpos.X + "." + cpos.Y;
+            Text = "" + cpos.X + "." + cpos.Y;
 
             //マウス座標にラベルをくっつける。
             label1.Left = cpos.X;
@@ -54,16 +54,16 @@ namespace mouse
                 textBox1.Text = (-vx).ToString();
             }
             else
-            if ((label2.Top < 0) || (label2.Top + label2.Height > ClientSize.Height))
-            {
-                //上下反転
-                label2.Top -= vy;
-                textBox2.Text = (-vy).ToString();
-            }
+                if ((label2.Top < 0) || (label2.Top + label2.Height > ClientSize.Height))
+                {
+                    //上下反転
+                    label2.Top -= vy;
+                    textBox2.Text = (-vy).ToString();
+                }
 
             //--------ラベル1と2
 
-        
+        }
+    }
+}
    
-        
-
