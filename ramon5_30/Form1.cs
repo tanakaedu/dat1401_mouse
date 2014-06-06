@@ -30,17 +30,65 @@ namespace ramon5_30
 
 
             Text = "" + cpos.X + "," + cpos.Y;
+
+            label1.Left = cpos.X;
+            label1.Top = cpos.Y;
+
+            int vx = int.Parse(textBox1.Text);
+
+            int vy = int.Parse(textBox2.Text);
+
+            label2.Left = label2.Left + vx;
+            label2.Top = label2.Top + vy;
+
+            if ((label2.Left <= 0) || (label2.Left + label2.Width > ClientSize.Width))
+            {
+                label2.Left -= vx;
+                textBox1.Text = (-vx).ToString();
+
+            }
+
+
+            if ((label2.Top <= 0) || (label2.Top + label2.Width > ClientSize.Width))
+            {
+                label2.Top -= vx;
+                textBox1.Text = (-vx).ToString();
+
+            }
+            
+
+
+
+
+            /*
+            if ((label2.Left < cpos.X) && (label2.Left + label2.Width > cpos.X))
+            {
+
+                textBox1.Text = "0";
+                textBox2.Text = "0";
+             }
+            if (label2.Top > cpos.Y && (label2.Top+label2.Height > cpos.Y))
+            {
+                textBox1.Text = "0";
+                textBox2.Text = "0";
+             }
+             * */
+
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-            Point bottone;
 
 
-            bottone = this.PointToClient(MousePosition);
-
-
-            Text = "" + bottone.X + "," + bottone.Y;
         }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+        }
+
+
+            
+
+
     }
 }
