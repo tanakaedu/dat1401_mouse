@@ -33,6 +33,20 @@ namespace mouse
 
 
             // ラベル2の移動
+            int vx = int.Parse(textBox1.Text);
+            int vy = int.Parse(textBox2.Text);
+            label2.Left += vx;
+            label2.Top += vy;
+            if ((label2.Left < 0) || ((label2.Left+label2.Width) > ClientSize.Width))
+            {
+                label2.Left -= vx;
+                textBox1.Text = (-vx).ToString();
+            }
+            if ((label2.Top < 0) || ((label2.Top + label2.Height) > ClientSize.Height))
+            {
+                label2.Top -= vy;
+                textBox2.Text = (-vy).ToString();
+            }
             
             // 跳ね返り
 
