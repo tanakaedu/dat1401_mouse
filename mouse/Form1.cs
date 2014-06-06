@@ -18,18 +18,66 @@ namespace mouse
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            //2次元クラスPoint型の変数cposを宣言
+            //-------------------マウス追従--------------------------
+            //2次元クラスPoint型（かた）の変数（へんすう）cposを宣言（せんげん）
             Point cpos;
 
-            //cposにマウスのフォーム座標を取り出す
+            //cposにマウスのフォーム座標（ざひょう）を取り出す（とりだす）
             cpos = this.PointToClient(MousePosition);
 
-            //フォームにマウス座標を表示
+            //フォームにマウス座標（ざひょう）を表示（ひょうじ）
             Text = "" + cpos.X + "," + cpos.Y;
 
-            //マウス座標にラベルをくっつける。(マウスの座標をlabelに代入)
-            label1.Left = cpos.X;
+            //マウス座標（ざひょう）にラベルをくっつける。(マウスの座標（ざひょう）をlabelに代入（だいにゅう）)
+            label1.Left = (label2.Top < 0) || (label2.Top + label2.Height > ClientSize.Height);
             label1.Top = cpos.Y;
+
+            //------------------ラベル2の移動-------------------------
+            //ラベル2の移動（いどう）
+            int vx = int.Parse(textBox1.Text);
+            int vy = int.Parse(textBox2.Text);
+
+            // ラベルの座標（ざひょう）に加算（かさん）
+            label2.Left = label2.Left + vx;
+            label2.Top = label2.Top + vy;
+
+            if ((label2.Left < 0) || (label2.Left + label2.Width > ClientSize.Width))
+            {
+                //左右反転（さゆうはんてん）
+                label2.Left -= vx;
+                textBox1.Text = (-vx).ToString();
+            }
+            else
+            if ((label2.Top < 0) || (label2.Top + label2.Height > ClientSize.Height))
+            {
+                //上下反転（じょうげはんてん）
+                label2.Top -= vy;
+                textBox2.Text = (-vy).ToString();
+            }
+
+            //-------------------ラベル1とラベル2の衝突判定------------------------
+            //マウスカーソルと重なったら
+            //タイマー停止or表情変更
+            //考え方：top～height + left + widthの中のcposが入ったらラベル２の変数を0にする
+            if ((label2.Left < cpos.X) && (label2.Left + label2.Width > cpos.X))
+            {
+                textBox1.Text = 0;
+                textBox2.Text = 0;
+            }
+            if ((label2.Top < cpos.Y) && (label2.Top + label2.Height > cpos.Y))
+            {
+                textBox1.Text = 0;
+                textBox2.Text = 0;
+            }
+
+
+        }
+
+
+        //テキストbox2のプログラム変更なしでよい
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
