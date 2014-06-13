@@ -12,9 +12,14 @@ namespace mouse
     public partial class Form1 : Form
     {
 
-        int iVelX = 10;
-        int iVelY = 10;
-        
+
+        private static Random rand = new Random();
+        int iVelX = rand.Next(100);
+        int iVelY = rand.Next(100);
+        int iVelX2 = rand.Next(100);
+        int iVelY2 = rand.Next(100);
+
+    
         public Form1()
         {
             InitializeComponent();
@@ -38,11 +43,11 @@ namespace mouse
             try
             {
 
-                int vx = iVelX;
-                int vy = iVelY;
+                int vx = iVelX + 50;
+                int vy = iVelY + 50;
 
-                int vx2 = iVelX;
-                int vy2 = iVelY;
+                int vx2 = iVelX2 + 80;
+                int vy2 = iVelY2 + 80;
 
 
                 label3.Left = label3.Left + vx;
@@ -53,7 +58,7 @@ namespace mouse
                 if ((label3.Left < 0) || (label3.Left + label3.Width > ClientSize.Width))
                 {
                     label3.Left -= vx;
-                    iVelX = (-vx);
+                    iVelX = -vx;
                 }
 
                 if ((label3.Top < 0) || (label3.Top + label3.Height > ClientSize.Height))
@@ -73,20 +78,20 @@ namespace mouse
                 if ((label2.Left < 0) || (label2.Left + label2.Width > ClientSize.Width))
                 {
                     label2.Left -= vx2;
-                    iVelX = -vx2;
+                    iVelX2 = -vx2;
                 }
 
                 if ((label2.Top < 0) || (label2.Top + label2.Height > ClientSize.Height))
                 {
                     label2.Top -= vy2;
-                    iVelY = -vy2;
+                    iVelY2 = -vy2;
                 }
 
                 if ((label2.Left < cpos.X) && (label2.Left + label2.Width > cpos.X) && (label2.Top < cpos.Y) && (label2.Top + label2.Height > cpos.Y))
                 {
 
-                    iVelX = 0;
-                    iVelY = 0;
+                    iVelX2 = 0;
+                    iVelY2 = 0;
 
                 }
 
@@ -115,27 +120,29 @@ namespace mouse
 
 
         private void label1_Click(object sender, EventArgs e)
-        {
-            
+        {  
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            iVelX = 0;
-            iVelY = 0;
-
         }
-
         private void button2_Click(object sender, EventArgs e)
+        {
+        }
+        private void button2_Click_1(object sender, EventArgs e)
         {
             iVelX = 0;
             iVelY = 0;
+        }
 
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            iVelX2 = 10;
+            iVelY2 = 10;
         }
 
 
