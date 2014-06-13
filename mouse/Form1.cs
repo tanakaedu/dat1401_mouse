@@ -11,8 +11,9 @@ namespace mouse
 {
     public partial class Form1 : Form
     {
-        int iVelX = 10;
-        int iVelY = 10;
+        int iVelX = rand.Next(100);
+        int iVelY = rand.Next(100);
+        private static Random rand = new Random();
 
         public Form1()
         {
