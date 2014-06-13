@@ -11,6 +11,9 @@ namespace mouse01
 {
     public partial class Form1 : Form
     {
+        int iValX = 10;
+        int iValY = 10;
+
         public Form1()
         {
             InitializeComponent();
@@ -60,15 +63,28 @@ namespace mouse01
             catch (Exception ee)
             {
             }
-                //ぶつかったら止まる
-                if ((label2.Top < cpos.Y) && (label2.Top+label2.Height >= cpos.Y))
+                //ぶつかったら止まる:速度が０になればよい
+                if ((label2.Top <= cpos.Y) && (label2.Top+label2.Height >= cpos.Y))
                 {
-                    if ((label2.Left < cpos.X) && (label2.Left + label2.Width >= cpos.X))
+                    if ((label2.Left <= cpos.X) && (label2.Left + label2.Width >= cpos.X))
                     {
                         textBox1.Text = "0";
                         textBox2.Text = "0";
                         label2.Text = "クリア！！";
                         label1.Text = "つっかまえた！！";
+
+                        //マウスカーソルと重なったら
+                        //タイマー停止　or 表情変更
+                        
+                        // cpos.X : マウスX座標
+                        // cpos.Y : マウスのY座標
+                        // if((条件１) && (条件２) && (条件３) && (条件４))
+                        //→条件１～４まで全部成立した時のif文
+                        // label2とcposの関係を確認する
+                        //条件1:cpos.Xは、label2.Left以上
+                        //条件2:cpos.Xは、label2.Left+label2.Width未満
+                        //条件3:cpos.Yは、label2.Top以上
+                        //条件4:cpos.Yは、label2.Top+label2.Height未満
                     }
                 }
         }

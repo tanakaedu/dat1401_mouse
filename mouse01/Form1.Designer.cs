@@ -68,7 +68,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(96, 19);
             this.textBox1.TabIndex = 2;
-            this.textBox1.Text = "90";
+            this.textBox1.Text = "30";
             // 
             // textBox2
             // 
@@ -76,7 +76,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(112, 19);
             this.textBox2.TabIndex = 3;
-            this.textBox2.Text = "60";
+            this.textBox2.Text = "40";
             // 
             // Form1
             // 
