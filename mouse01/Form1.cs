@@ -11,8 +11,8 @@ namespace mouse01
 {
     public partial class Form1 : Form
     {
-        int iValX = 10;
-        int iValY = 10;
+        int iVelX = 10;
+        int iVelY = 10;
 
         public Form1()
         {
@@ -37,8 +37,8 @@ namespace mouse01
             {
 
                 //textBoxからintの変数の値を取得
-                int vx = int.Parse(textBox1.Text);
-                int vy = int.Parse(textBox2.Text);
+                int vx = iVelX;
+                int vy = iVelY;
 
                 //ラベルの座標に加算
                 label2.Left = label2.Left + vx;
@@ -51,13 +51,13 @@ namespace mouse01
                 {
                     //　左右反転させる
                     label2.Left -= vx;
-                    textBox1.Text = (-vx).ToString();
+                    iVelX = -vy;
                 }
 
                 if ((label2.Top <= 0) || (label2.Bottom >= ClientSize.Height))
                 {
                     label2.Top -= vy;
-                    textBox2.Text = (-vy).ToString();
+                    iVelY = -vy;
                 }
             }
             catch (Exception ee)
@@ -68,9 +68,9 @@ namespace mouse01
                 {
                     if ((label2.Left <= cpos.X) && (label2.Left + label2.Width >= cpos.X))
                     {
-                        textBox1.Text = "0";
-                        textBox2.Text = "0";
-                        label2.Text = "クリア！！";
+                        iVelX = 0;
+                        iVelY = 0;
+                        label3.Text = "クリア！！";
                         label1.Text = "つっかまえた！！";
 
                         //マウスカーソルと重なったら
