@@ -11,18 +11,37 @@ namespace mouse
 {
     public partial class Form1 : Form
     {
+        Label[] chrs = new Label[10];
+        int[] iVX = new int[10];
+        int[] iVY = new int[10];
 
 
-        private static Random rand = new Random();
         int iVelX = rand.Next(100);
         int iVelY = rand.Next(100);
-        int iVelX2 = rand.Next(100);
-        int iVelY2 = rand.Next(100);
+        private static Random rand = new Random();
 
-    
+
+
+        //コンストラクタ
+        //Form1クラスが生成される時に実行する
+        //特別な関数
         public Form1()
         {
             InitializeComponent();
+
+            //ラベルの生成
+            for (int i = 0; i < 10; i++)
+            {
+                chrs[i] = new Label();
+                chrs[i].AutoSize = true; //ミソ
+                chrs[i].Text = "＼(｀・ω・´)ゝ∠(｀・ω・´)／";
+                chrs[i].Left = rand.Next(ClientSize.Width);
+                chrs[i].Top = rand.Next(ClientSize.Height);
+                Controls.Add(chrs[i]); //フォームの追加
+
+                iVX[i] = rand.Next(100);
+                iVY[i] = rand.Next(100);
+            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -43,17 +62,11 @@ namespace mouse
             try
             {
 
-                int vx = iVelX + 50;
-                int vy = iVelY + 50;
-
-                int vx2 = iVelX2 + 80;
-                int vy2 = iVelY2 + 80;
-
-
+                int vx = iVelX ;
+                int vy = iVelY ;
                 label3.Left = label3.Left + vx;
                 label3.Top = label3.Top + vy;
-                label2.Left = label2.Left + vx2;
-                label2.Top = label2.Top + vy2;
+
                 //ラベルの反射:ラベル1
                 if ((label3.Left < 0) || (label3.Left + label3.Width > ClientSize.Width))
                 {
@@ -72,44 +85,11 @@ namespace mouse
 
                     iVelX = 0;
                     iVelY = 0;
-
-                //ラベルの反射：ラベル2
-                }
-                if ((label2.Left < 0) || (label2.Left + label2.Width > ClientSize.Width))
-                {
-                    label2.Left -= vx2;
-                    iVelX2 = -vx2;
                 }
 
-                if ((label2.Top < 0) || (label2.Top + label2.Height > ClientSize.Height))
-                {
-                    label2.Top -= vy2;
-                    iVelY2 = -vy2;
-                }
+                
 
-                if ((label2.Left < cpos.X) && (label2.Left + label2.Width > cpos.X) && (label2.Top < cpos.Y) && (label2.Top + label2.Height > cpos.Y))
-                {
 
-                    iVelX2 = 0;
-                    iVelY2 = 0;
-
-                }
-
-                //反射試し
-                if ((label2.Left == label3.Left + label3.Width) || (label2.Left + label2.Width == label3.Left))
-                {
-                    /*label3.Left -= vx;
-                    iValX = (-vx);
-                    label2.Left -= vx2;
-                    iValX = (-vx2);*/
-                }
-                /*if ((label2.Top < label3.Top + label3.Height) || (label3.Top > label2.Top + label2.Height))
-                {
-                    label3.Top -= vy;
-                    iValY = -vy;
-                    label2.Top -= vy2;
-                    iValY = -vy2;
-                }*/
             }
 
             catch (Exception ee)
@@ -135,14 +115,47 @@ namespace mouse
         }
         private void button2_Click_1(object sender, EventArgs e)
         {
-            iVelX = 0;
-            iVelY = 0;
+            iVelX = 50;
+            iVelY = 50;
         }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            iVelX2 = 10;
-            iVelY2 = 10;
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //int型の配列変数3つ定義
+            int[] iar = new int [3];
+            //[]の中に添え字を入れることで、
+            //別の場所にアクセスできる
+            iar[0] = 0;
+            iar[1] = 1;
+            iar[2] = 2;
+            MessageBox.Show(iar[0].ToString());
+            MessageBox.Show(iar[1].ToString());
+            MessageBox.Show(iar[2].ToString());
+            int i = 0;
+            MessageBox.Show(iar[i].ToString());
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            int i;
+            for (i = 0; i < 10; i++)
+            {
+                if (i < 3)
+                {
+                    continue;
+                }
+                MessageBox.Show(i.ToString());
+                if (i >= 6)
+                {
+                    break;
+                }
+            }
+            MessageBox.Show("iは" + i);
         }
 
 
