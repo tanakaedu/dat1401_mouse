@@ -11,6 +11,9 @@ namespace Mouse
 {
     public partial class Form1 : Form
     {
+        int iValX = 10;
+        int iValY = 10;
+
         public Form1()
         {
             InitializeComponent();
@@ -67,6 +70,29 @@ namespace Mouse
                     textBox1.Text = "0";
                     textBox2.Text = "0";
                 }
+
+                // マウスカーソルと重なったら
+                // タイマー停止 or 表情変更
+                
+                // cpos.X：マウスのX座標
+                // cpos.Y：マウスのY座標
+                // if ((条件1) && (条件2) && (条件3) && (条件4))
+                // →条件1～4まで全部成立した時のif文
+                // label2とcposの関係を確認する
+                // 条件1：cpos.Xは、label2.Left以上
+                // 条件2：cpos.Xは、label2.Left + label2.Width未満
+                // 条件3：cpos.Yは、label2.Top以上
+                // 条件4：cpos.Yは、label2.Top + label2.Height未満
+                if (    (cpos.X >= label2.Left)
+                     && (cpos.X < label2.Left + label2.Width)
+                     && (cpos.Y >= label2.Top)
+                     && (cpos.Y < label2.Top + label2.Height))
+                   {
+                        // 止める:速度が0になればよい
+                       textBox1.Text = "0";
+                       textBox2.Text = "0";
+                   }
+                
 
             }
             catch (Exception ee)
