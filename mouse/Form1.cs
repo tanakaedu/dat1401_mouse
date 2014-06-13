@@ -71,7 +71,6 @@ namespace mouse
             iVelX = 10;
             iVelY = 10;
             label2.Text = "j(´-｀)しﾂｶﾚﾀﾜ";
-            //a = 0;
         }
     }
 }
