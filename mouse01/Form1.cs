@@ -11,8 +11,9 @@ namespace mouse01
 {
     public partial class Form1 : Form
     {
-        int iVelX = 20;
-        int iVelY = 20;
+        int iVelX = rand.Next(10,30);
+        int iVelY = rand.Next(10,30);
+        private static Random rand = new Random();
 
         public Form1()
         {
@@ -41,7 +42,7 @@ namespace mouse01
                 //ラベルの座標に加算
                 label2.Left = label2.Left + vx;
                 label2.Top = label2.Top + vy;
-                if ((label2.Left < 0) || (label2.Left + label1.Width > ClientSize.Width))
+                if ((label2.Left <= 0) || (label2.Left + label1.Width >= ClientSize.Width))
                 {
                     //左右反転させる
                     label2.Left -= vx;
