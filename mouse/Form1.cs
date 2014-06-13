@@ -11,9 +11,9 @@ namespace mouse
 {
     public partial class Form1 : Form
     {
-        //int a = 0;
-        int ivalX = 10;
-        int iValY = 10;
+
+        int iVelX = 10;
+        int iVelY = 10;
         
         public Form1()
         {
@@ -38,11 +38,11 @@ namespace mouse
             try
             {
 
-                int vx = int.Parse(textBox1.Text);
-                int vy = int.Parse(textBox2.Text);
+                int vx = iVelX;
+                int vy = iVelY;
 
-                int vx2 = int.Parse(textBox3.Text);
-                int vy2 = int.Parse(textBox4.Text);
+                int vx2 = iVelX;
+                int vy2 = iVelY;
 
 
                 label3.Left = label3.Left + vx;
@@ -53,63 +53,57 @@ namespace mouse
                 if ((label3.Left < 0) || (label3.Left + label3.Width > ClientSize.Width))
                 {
                     label3.Left -= vx;
-                    textBox1.Text = (-vx).ToString();
+                    iVelX = (-vx);
                 }
 
                 if ((label3.Top < 0) || (label3.Top + label3.Height > ClientSize.Height))
                 {
                     label3.Top -= vy;
-                    textBox2.Text = (-vy).ToString();
+                    iVelY = -vy;
                 }
 
                 if ((label3.Left < cpos.X) && (label3.Left + label3.Width > cpos.X) && (label3.Top < cpos.Y) && (label3.Top + label3.Height > cpos.Y))
                 {
-                   /* a += 10;
-                    textBox1.Text = a.ToString();
-                    textBox2.Text = a.ToString();
-                    */
-                    textBox1.Text = "0";
-                    textBox2.Text = "0";
+
+                    iVelX = 0;
+                    iVelY = 0;
 
                 //ラベルの反射：ラベル2
                 }
                 if ((label2.Left < 0) || (label2.Left + label2.Width > ClientSize.Width))
                 {
                     label2.Left -= vx2;
-                    textBox3.Text = (-vx2).ToString();
+                    iVelX = -vx2;
                 }
 
                 if ((label2.Top < 0) || (label2.Top + label2.Height > ClientSize.Height))
                 {
                     label2.Top -= vy2;
-                    textBox4.Text = (-vy2).ToString();
+                    iVelY = -vy2;
                 }
 
                 if ((label2.Left < cpos.X) && (label2.Left + label2.Width > cpos.X) && (label2.Top < cpos.Y) && (label2.Top + label2.Height > cpos.Y))
                 {
-                    /* a += 10;
-                    textBox1.Text = a.ToString();
-                    textBox2.Text = a.ToString();
-                    */
-                    textBox3.Text = "0";
-                    textBox4.Text = "0";
+
+                    iVelX = 0;
+                    iVelY = 0;
 
                 }
 
                 //反射試し
                 if ((label2.Left == label3.Left + label3.Width) || (label2.Left + label2.Width == label3.Left))
                 {
-                    label3.Left -= vx;
-                    textBox1.Text = (-vx).ToString();
+                    /*label3.Left -= vx;
+                    iValX = (-vx);
                     label2.Left -= vx2;
-                    textBox3.Text = (-vx2).ToString();
+                    iValX = (-vx2);*/
                 }
                 /*if ((label2.Top < label3.Top + label3.Height) || (label3.Top > label2.Top + label2.Height))
                 {
                     label3.Top -= vy;
-                    textBox2.Text = (-vy).ToString();
+                    iValY = -vy;
                     label2.Top -= vy2;
-                    textBox4.Text = (-vy2).ToString();
+                    iValY = -vy2;
                 }*/
             }
 
@@ -132,16 +126,16 @@ namespace mouse
 
         private void button1_Click(object sender, EventArgs e)
         {
-            textBox1.Text = "0";
-            textBox2.Text = "0";
-            a = 0;
+            iVelX = 0;
+            iVelY = 0;
+
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            textBox3.Text = "0";
-            textBox4.Text = "0";
-            a = 0;
+            iVelX = 0;
+            iVelY = 0;
+
         }
 
 
