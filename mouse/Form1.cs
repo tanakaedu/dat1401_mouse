@@ -11,7 +11,10 @@ namespace mouse
 {
     public partial class Form1 : Form
     {
-        int a = 0;
+
+        int iValX = 10;
+        int iValY = 10;
+
         public Form1()
         {
             InitializeComponent();
@@ -50,34 +53,34 @@ namespace mouse
                 }
                 if ((label2.Left < cpos.X) && (label2.Left + label2.Width > cpos.X)&&(label2.Top < cpos.Y) && (label2.Top + label2.Height > cpos.Y))
                 {
-                    a+=5;
-                    textBox1.Text = a.ToString();
-                    textBox2.Text = a.ToString();
+                    //a+=5;
+                    textBox1.Text = "0";//a.ToString();
+                    textBox2.Text = "0";//a.ToString();
                     label2.Text = "j(´-｀)しﾀｶｼ";
                 }
-               
- 
+                /*if (a > 1000)
+                {
+                    a = 0;
+                }
+               if ((label2.Left<label3.Left)&&(label2.Left +label2.Width > label3.Left+label3.Width)&&(label2.Top<label3.Top)&&(label2.Top+label2.Height >label3.Top+label3.Height))
+                {
+                    textBox1.Text = (-vx).ToString();
+                    textBox2.Text = (-vy).ToString();
+                }*/               
             }
             catch (Exception ee)
             {
             }
-
-
-
         }
-
-
-
         private void label1_Click(object sender, EventArgs e)
         {
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
-            textBox1.Text ="0";
-            textBox2.Text ="0";
+            textBox1.Text ="50";
+            textBox2.Text ="50";
             label2.Text = "j(´-｀)しﾂｶﾚﾀﾜ";
             a = 0;
         }
     }
-    }
+}

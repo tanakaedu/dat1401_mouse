@@ -49,9 +49,9 @@
             this.label1.Font = new System.Drawing.Font("MS UI Gothic", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label1.Location = new System.Drawing.Point(360, 157);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(174, 29);
+            this.label1.Size = new System.Drawing.Size(209, 29);
             this.label1.TabIndex = 0;
-            this.label1.Text = "(\'A`;)ｶｰﾁｬﾝ...";
+            this.label1.Text = "(\'A`;)ｶ、ｶｰﾁｬﾝ...";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // textBox1
