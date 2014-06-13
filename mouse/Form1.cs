@@ -11,6 +11,9 @@ namespace mouse
 {
     public partial class Form1 : Form
     {
+        int iValX = 10;
+        int iValY = 10;
+
         public Form1()
         {
             InitializeComponent();
@@ -63,11 +66,14 @@ namespace mouse
             // 条件2：cpos.xは、label2.Left+label2.Width未満
             // 条件3：cpos.yは、label2.Top以上
             // 条件4：cpos.yは、label2.Top+label2.Height未満
-            if (    ()
-                &&  ()
-                &&  ()
-                &&  ())
+            if (    (cpos.X >= label2.Left)
+                &&  (cpos.X < label2.Left+label2.Width)
+                &&  (cpos.Y >= label2.Top)
+                &&  (cpos.Y < label2.Top+label2.Height))
             {
+                // 止める:速度が0になればよい
+                textBox1.Text = "0";
+                textBox2.Text = "0";
             }
 
         }
