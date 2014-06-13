@@ -99,6 +99,17 @@ namespace mouse
                 iVelY = 0;
             }
 
+            // ラベルを動かす
+            for (int i = 0; i < 10; i++)
+            {
+                // ラベルの移動
+                chrs[i].Left += iVX[i];
+                chrs[i].Top += iVY[i];
+
+                // ラベルの跳ね返り
+                // マウスとの当たり判定
+            }
+
         }
 
         private void button1_Click(object sender, EventArgs e)
