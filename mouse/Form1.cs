@@ -11,8 +11,8 @@ namespace mouse
 {
     public partial class Form1 : Form
     {
-        int iValX = 10;
-        int iValY = 10;
+        int iVelX = 10;
+        int iVelY = 10;
 
         public Form1()
         {
@@ -35,24 +35,24 @@ namespace mouse
                 // マウス座標にラベルをくっつけてみよう
                 label1.Left = cpos.X;
                 label1.Top = cpos.Y;
-                int vx = int.Parse(textBox1.Text);
-                int vy = int.Parse(textBox2.Text);
+                int vx = iVelX;
+                int vy = iVelY;
 
-                label2.Left = label2.Left + vx;
-                label2.Top = label2.Top + vy;
+                label2.Left +=  vx;
+                label2.Top +=   vy;
 
                 //反射
                 if ((label2.Left < 0) || (label2.Left+label2.Width >  ClientSize.Width))
                 {
                    //左右反転
                     label2.Left -= vx;
-                    textBox1.Text = (-vx).ToString();
+                    iVelX = -vx;
                 }
                 if ((label2.Top < 0) || (label2.Top + label2.Height >  ClientSize.Height))
                 {
                     //上下反転
                     label2.Top -= vy;
-                    textBox2.Text = (-vx).ToString();
+                    iVelY = -vy;
                 }
 
                 //cpos.x:マウスのX座標
@@ -63,13 +63,13 @@ namespace mouse
                 //条件２cpos.xは.label2.left+label2.Wideth未満
                 //条件３cpos.ｙは.label2.Top以上
                 //条件４cpos.ｙは.label2.Top+label2.Height未満
-                if (( cpos.X >= label2.Left ) 
+                if(     ( cpos.X >= label2.Left ) 
                     && (cpos.X < label2.Left+label2.Width)
                     && (cpos.Y >= label2.Top  ) 
                     && (cpos.Y < label2.Top+label2.Height))
                 {
-                    textBox1.Text = "0";
-                    textBox2.Text = "0";
+                    iVelX = 0;
+                    iVelY = 0;
                 }
 
             }
