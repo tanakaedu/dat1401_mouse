@@ -12,8 +12,9 @@ namespace mouse
     public partial class Form1 : Form
     {
 
-        int iVelX = 10;
-        int iVelY = 10;
+        int iVelX = rand.Next(20);
+        int iVelY = rand.Next(20);
+        private static Random rand = new Random();
 
         public Form1()
         {
@@ -53,8 +54,8 @@ namespace mouse
                 }
                 if ((label2.Left < cpos.X) && (label2.Left + label2.Width > cpos.X)&&(label2.Top < cpos.Y) && (label2.Top + label2.Height > cpos.Y))
                 {
-                    iVelX = 0;
-                    iVelY = 0;
+                    iVelX = rand.Next(-99,100);
+                    iVelY = rand.Next(-99,100);
                     label2.Text = "j(´-｀)しﾀｶｼ";
                 }
                
@@ -68,8 +69,8 @@ namespace mouse
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            iVelX = 10;
-            iVelY = 10;
+            iVelX = rand.Next(10);
+            iVelY = rand.Next(10);
             label2.Text = "j(´-｀)しﾂｶﾚﾀﾜ";
         }
     }
