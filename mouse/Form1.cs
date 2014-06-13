@@ -11,8 +11,8 @@ namespace Mouse
 {
     public partial class Form1 : Form
     {
-        int iValX = 10;
-        int iValY = 10;
+        int iVelX = 10;
+        int iVelY = 10;
 
         public Form1()
         {
@@ -24,8 +24,8 @@ namespace Mouse
             try
             {
                 // textBoxからintの変数に値を取得
-                int vx = int.Parse(textBox1.Text);
-                int vy = int.Parse(textBox2.Text);
+                int vx = iVelX;
+                int vy = iVelY;
 
                 // 2次元クラスPoint型の変数cposを宣言
                 Point cpos;
@@ -49,26 +49,26 @@ namespace Mouse
                 {
                     // 左右反転させる
                     label2.Left -= vx;
-                    textBox1.Text = (-vx).ToString();
+                    iVelX = -vx;
                 }
                 // ラベルが上下オーバーした時
                 if ((label2.Top < 0) || (label2.Top + label2.Height > ClientSize.Height))
                 {
                     // 上下反転させる
                     label2.Top -= vy;
-                    textBox2.Text = (-vy).ToString();
+                    iVelY = -vy;
                 }
 
                 // ラベルに当たり判定をつける
                 if ((label2.Left < cpos.X) && (label2.Left + label2.Width > cpos.X))
                 {
-                    textBox1.Text = "0";
-                    textBox2.Text = "0";
+                    iVelX = 0;
+                    iVelY = 0;
                 }
                 if ((label2.Top < cpos.Y) && (label2.Top + label2.Height > cpos.Y))
                 {
-                    textBox1.Text = "0";
-                    textBox2.Text = "0";
+                    iVelX = 0;
+                    iVelY = 0;
                 }
 
                 // マウスカーソルと重なったら
@@ -89,8 +89,8 @@ namespace Mouse
                      && (cpos.Y < label2.Top + label2.Height))
                    {
                         // 止める:速度が0になればよい
-                       textBox1.Text = "0";
-                       textBox2.Text = "0";
+                       iVelX = 0;
+                       iVelY = 0;
                    }
                 
 
