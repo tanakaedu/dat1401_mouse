@@ -11,6 +11,9 @@ namespace mouse01
 {
     public partial class Form1 : Form
     {
+        int iValX = 10;
+        int iValY = 10;
+
         public Form1()
         {
             InitializeComponent();
@@ -56,14 +59,17 @@ namespace mouse01
             {
 
             }//終わり
-
+            
+            //条件1:cpos.Xは、label2.leftより大きい
+            //条件2:cpos.Xは、label2.left+label2.width未満
+            //条件3:cpos.Yは、label2.topより大きい
+            //条件4:cpos.Yは、label2.top+label2.height未満
             if ((label2.Left <= cpos.X) && (label2.Left + label2.Width >= cpos.X))
             {
                 if((label2.Top <= cpos.Y) && (label2.Top + label2.Height >= cpos.Y))
                 {
-                    textBox1.Text ="0";
-                    textBox2.Text ="0";
-
+                    textBox1.Text = "0";
+                    textBox2.Text = "0";
 
                     label2.Text = "クリア";
                 }
@@ -83,7 +89,6 @@ namespace mouse01
         private void label2_Click(object sender, EventArgs e)
         {
             
-   
         }
     }
 }
