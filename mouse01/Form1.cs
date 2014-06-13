@@ -11,8 +11,9 @@ namespace mouse01
 {
     public partial class Form1 : Form
     {
-        int iVelX = 10;
-        int iVelY = 10;
+        int iVelX = rand.Next(-40,60);
+        int iVelY = rand.Next(-40,60);
+        private static Random rand = new Random();
 
         public Form1()
         {
@@ -59,6 +60,9 @@ namespace mouse01
                     label2.Top -= vy;
                     iVelY = -vy;
                 }
+               
+                
+               
             }
             catch (Exception ee)
             {
