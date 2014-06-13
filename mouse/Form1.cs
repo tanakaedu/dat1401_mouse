@@ -11,13 +11,35 @@ namespace mouse
 {
     public partial class Form1 : Form
     {
+        Label[] chrs = new Label[10];
+        int[] iVX = new int[10];
+        int[] iVY = new int[10];
+
         int iVelX = rand.Next(-20, 21);
         int iVelY = rand.Next(-20, 21);
+
         private static Random rand = new Random();
 
+        // コンストラクタ
+        // Form1クラスが生成される時に実行する
+        // 特別な関数
         public Form1()
         {
             InitializeComponent();
+
+            // ラベルの生成
+            for (int i = 0; i < 10; i++)
+            {
+                chrs[i] = new Label();
+                chrs[i].AutoSize = true; // ミソ
+                chrs[i].Text = "（▼皿▼)";
+                chrs[i].Left = rand.Next(ClientSize.Width);
+                chrs[i].Top = rand.Next(ClientSize.Height);
+                Controls.Add(chrs[i]); // フォームに追加
+
+                iVX[i] = rand.Next(-20, 21);
+                iVY[i] = rand.Next(-20, 21);
+            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -77,6 +99,40 @@ namespace mouse
                 iVelY = 0;
             }
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // int型の配列変数3つを定義
+            int[] iar = new int[3];
+            // []の中に添え字を入れることで、
+            // 別の場所にアクセスできる
+            iar[0] = 0;
+            iar[1] = 1;
+            iar[2] = 2;
+            MessageBox.Show(iar[0].ToString());
+            MessageBox.Show(iar[1].ToString());
+            MessageBox.Show(iar[2].ToString());
+            int i = 0;
+            MessageBox.Show(iar[i].ToString());
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            int i = 0;
+            for (i = 0; i < 10; i++)
+            {
+                if (i < 3)
+                {
+                    continue;
+                }
+                if (i >= 6)
+                {
+                    break;
+                }
+                MessageBox.Show(i.ToString());
+            }
+            MessageBox.Show("iは" + i);
         }
     }
 }
