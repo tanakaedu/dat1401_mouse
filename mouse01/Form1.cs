@@ -11,12 +11,19 @@ namespace mouse01
 {
     public partial class Form1 : Form
     {
-        Label[] chrs = new Label[100];
-        int[] iVX = new int[100];
-        int[] iVY = new int[100];
+        const int TEKI_MAX = 2;
 
-        int iVelX = rand.Next(10,30);
-        int iVelY = rand.Next(10,30);
+        int time;
+        int aaa;
+
+        Label[] chrs = new Label[TEKI_MAX];
+        int[] iVX = new int[TEKI_MAX];
+        int[] iVY = new int[TEKI_MAX];
+        
+        
+
+        int iVelX = rand.Next(10);
+        int iVelY = rand.Next(10);
         private static Random rand = new Random();
 
         public Form1()
@@ -25,21 +32,26 @@ namespace mouse01
             //form1クラスが生成されるときに実行する
             //特別な関数
             InitializeComponent();
+            time = 0;
+            aaa = TEKI_MAX;
+            label4.Text = aaa.ToString();
 
 
 
             //ラベルの生成
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < TEKI_MAX; i++)
             {
                 chrs[i] = new Label();
-                chrs[i].AutoSize = true; //ミソ ;
-                chrs[i].Text = "*****";
+                chrs[i].AutoSize = true; //ミソ
+                chrs[i].Text = "ひぃ～～";
                 chrs[i].Left = rand.Next(ClientSize.Width);
                 chrs[i] .Top = rand.Next(ClientSize.Height);
                 Controls.Add(chrs[i]);//フォームに追加
+                chrs[i].Font = new Font("HGP創英角ﾎﾟｯﾌﾟ体", 45);
+                chrs[i].ForeColor = Color.FromArgb(64,126,0);
 
-                iVX[i] = rand.Next(10, 20);
-                iVY[i] = rand.Next(10, 20);
+                iVX[i] = rand.Next( 5,6);
+                iVY[i] = rand.Next( 5,6);
 
             }
 
@@ -48,6 +60,13 @@ namespace mouse01
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            
+            if (aaa>0)
+            {
+            time++;
+            label5.Text = "Time:" + time;
+            }
+
             //2次元クラスPoint型の変数cposを宣言
             Point cpos;
 
@@ -60,6 +79,8 @@ namespace mouse01
             label1.Left = cpos.X;
             label1.Top = cpos.Y;
 
+            
+
             try
             {
                 //textBoxからintの変数の値を取得
@@ -68,7 +89,7 @@ namespace mouse01
                 //ラベルの座標に加算
                 label2.Left = label2.Left + vx;
                 label2.Top = label2.Top + vy;
-                if ((label2.Left < 0) || (label2.Left + label1.Width > ClientSize.Width))
+                if ((label2.Left < 0) || (label2.Left + label2.Width > ClientSize.Width))
                 {
                     //左右反転させる
                     label2.Left -= vx;
@@ -98,7 +119,7 @@ namespace mouse01
                     iVelX = 0;
                     iVelY = 0;
 
-                    label3.Text = "クリア！！";
+
                     label2.Text = "つかまった～";
                 }
             }
@@ -108,11 +129,61 @@ namespace mouse01
                 textBox1.Text = "0";
                 textBox2.Text = "0";
             }*/
-        }
-        private void label1_Click(object sender, EventArgs e)
-        {
+
+            //量産ラベルを動かす
+            for (int i = 0; i < TEKI_MAX; i++)
+            {
+                if (chrs[i].Visible == false)
+                {
+                    continue;
+                }
+                //ラベルの移動
+                chrs[i].Left += iVX[i];
+                chrs[i].Top += iVY[i];
+                //ラベルの跳ね返り
+                chrs[i].Left = chrs[i].Left ;
+                chrs[i].Top = chrs[i].Top ;
+                if ((chrs[i].Left < 0) || (chrs[i].Left + chrs[i].Width > ClientSize.Width))
+                {
+                    //左右反転させる
+                    chrs[i].Left -= iVX[i];
+                    iVX[i] = -iVX[i];
+                }
+
+                if ((chrs[i].Top < 0) || (chrs[i].Bottom > ClientSize.Height))
+                {
+                    //上下反転させる
+                    chrs[i].Top -= iVY[i];
+                    iVY[i] = -iVY[i];
+                }
+                //マウスとの当たり判定
+                if ((chrs[i].Left <= cpos.X) && (chrs[i].Left + chrs[i].Width >= cpos.X))
+                {
+                    if ((chrs[i].Top <= cpos.Y) && (chrs[i].Top + chrs[i].Height >= cpos.Y))
+                    {
+                        iVX[i] = 0; 
+                        iVY[i] = 0;
+                        aaa--;
+                        label4.Text = aaa.ToString();
+                        
+
+                        chrs[i].Visible = false;
+                        
+                    }
+                }
+                /*if (iVX[i] == 0)
+                {
+                    aaa = aaa - 1;
+                    label4.Text = aaa.ToString();
+                }*/
+                if (aaa == 0)
+                {
+                     label3.Text = "クリア!!";
+                }
+            }
 
         }
+
 
         private void label2_Click(object sender, EventArgs e)
         {
@@ -157,6 +228,11 @@ namespace mouse01
                 }
             }
             MessageBox.Show("iは" + i);
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
