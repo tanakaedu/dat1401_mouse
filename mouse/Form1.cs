@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace mouse
 {
@@ -24,6 +25,7 @@ namespace mouse
         int iVelY = rand.Next(-20, 21);
 
         private static Random rand = new Random();
+        private static Stopwatch stwatch = new Stopwatch();
 
         // コンストラクタ
         // Form1クラスが生成される時に実行する
@@ -32,6 +34,7 @@ namespace mouse
         {
             chrnum = TEKI_MAX;
             time = 0;
+            stwatch.Start();    // ストップウォッチを動かす
 
             InitializeComponent();
 
@@ -57,7 +60,7 @@ namespace mouse
             if (chrnum > 0)
             {
                 time++;
-                label3.Text = "Time:" + time;
+                label3.Text = "Time:" + time+":"+stwatch.ElapsedMilliseconds ;
             }
 
             // 2次元クラスPoint型の変数cposを宣言
