@@ -11,9 +11,14 @@ namespace mouse
 {
     public partial class Form1 : Form
     {
-        Label[] chrs = new Label[10];
-        int[] iVX = new int[10];
-        int[] iVY = new int[10];
+        const int TEKI_MAX = 2;
+
+        int chrnum;
+        int time;
+
+        Label[] chrs = new Label[TEKI_MAX];
+        int[] iVX = new int[TEKI_MAX];
+        int[] iVY = new int[TEKI_MAX];
 
         int iVelX = rand.Next(-20, 21);
         int iVelY = rand.Next(-20, 21);
@@ -25,16 +30,21 @@ namespace mouse
         // 特別な関数
         public Form1()
         {
+            chrnum = TEKI_MAX;
+            time = 0;
+
             InitializeComponent();
 
             // ラベルの生成
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < TEKI_MAX; i++)
             {
                 chrs[i] = new Label();
                 chrs[i].AutoSize = true; // ミソ
                 chrs[i].Text = "（▼皿▼)";
                 chrs[i].Left = rand.Next(ClientSize.Width);
                 chrs[i].Top = rand.Next(ClientSize.Height);
+                chrs[i].Font = new Font("HGS創英角ﾎﾟｯﾌﾟ体", 24);
+                chrs[i].ForeColor = Color.FromArgb(255, 0, 0);
                 Controls.Add(chrs[i]); // フォームに追加
 
                 iVX[i] = rand.Next(-20, 21);
@@ -44,6 +54,12 @@ namespace mouse
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            if (chrnum > 0)
+            {
+                time++;
+                label3.Text = "Time:" + time;
+            }
+
             // 2次元クラスPoint型の変数cposを宣言
             Point cpos;
 
@@ -100,14 +116,50 @@ namespace mouse
             }
 
             // ラベルを動かす
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < TEKI_MAX; i++)
             {
+                // キャラクタが有効か
+                if (chrs[i].Visible == false)
+                {
+                    continue;
+                }
+
                 // ラベルの移動
                 chrs[i].Left += iVX[i];
                 chrs[i].Top += iVY[i];
 
                 // ラベルの跳ね返り
+                // 跳ね返り
+                if (    (chrs[i].Left < 0)
+                    ||  ((chrs[i].Left + chrs[i].Width) > ClientSize.Width))
+                {
+                    chrs[i].Left -= iVX[i];
+                    iVX[i] = -iVX[i];
+                }
+                if (    (chrs[i].Top < 0)
+                    ||  ((chrs[i].Top + chrs[i].Height) > ClientSize.Height))
+                {
+                    chrs[i].Top -= iVY[i];
+                    iVY[i] = -iVY[i];
+                }
+
                 // マウスとの当たり判定
+                if ((cpos.X >= chrs[i].Left)
+                                && (cpos.X < chrs[i].Left + chrs[i].Width)
+                                && (cpos.Y >= chrs[i].Top)
+                                && (cpos.Y < chrs[i].Top + chrs[i].Height))
+                {
+                    // 消す
+                    chrs[i].Visible = false;  // 消える
+                    chrnum--;
+                    if (chrnum == 0)
+                    {
+                        MessageBox.Show("clear");
+                    }
+                    // 止める:速度が0になればよい
+                    //iVX = 0;
+                    //iVY = 0;
+                }
             }
 
         }
@@ -131,7 +183,7 @@ namespace mouse
         private void button2_Click(object sender, EventArgs e)
         {
             int i = 0;
-            for (i = 0; i < 10; i++)
+            for (i = 0; i < TEKI_MAX; i++)
             {
                 if (i < 3)
                 {
