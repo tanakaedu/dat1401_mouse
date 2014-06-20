@@ -11,14 +11,19 @@ namespace mouse
 {
     public partial class Form1 : Form
     {
-        Label[] chrs = new Label[10];
-        int[] iVX = new int[10];
-        int[] iVY = new int[10];
+        const int TEKI_MAX = 10;
+
+        Label[] chrs = new Label[TEKI_MAX];
+        int[] iVX = new int[TEKI_MAX];
+        int[] iVY = new int[TEKI_MAX];
 
 
         int iVelX = rand.Next(100);
         int iVelY = rand.Next(100);
         private static Random rand = new Random();
+
+        int a ;
+        int time;
 
 
 
@@ -29,24 +34,34 @@ namespace mouse
         {
             InitializeComponent();
 
+            a = TEKI_MAX;
+            time = 0;
+
             //ラベルの生成
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < TEKI_MAX; i++)
             {
                 chrs[i] = new Label();
                 chrs[i].AutoSize = true; //ミソ
                 chrs[i].Text = "＼(｀・ω・´)ゝ∠(｀・ω・´)／";
                 chrs[i].Left = rand.Next(ClientSize.Width);
                 chrs[i].Top = rand.Next(ClientSize.Height);
+                chrs[i].Font = new Font("HGSｺﾞｼｯｸE", 25);
+                chrs[i].ForeColor = Color.FromArgb(0,0,255);
                 Controls.Add(chrs[i]); //フォームの追加
 
-                iVX[i] = rand.Next(100);
-                iVY[i] = rand.Next(100);
+                iVX[i] = rand.Next(10);
+                iVY[i] = rand.Next(10);
             }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            //2次元クラスPoint型の変数cposを宣言
+            if (a > 0)
+            {
+                time++;
+                label5.Text = "time:" + time;
+            }
+                //2次元クラスPoint型の変数cposを宣言
             Point cpos;
 
             //cposに、マウスのフォーム座標を取り出す
@@ -85,6 +100,48 @@ namespace mouse
 
                     iVelX = 0;
                     iVelY = 0;
+                }
+
+                for (int i = 0; i < TEKI_MAX; i++)
+                {
+
+                    if(chrs[i].Visible == false)
+                    {
+                        continue;
+                    }
+                    //ラベルの移動
+                    chrs[i].Left += iVX[i];
+                    chrs[i].Top += iVY[i];
+
+                    //ラベルの跳ね返り
+                    if ((chrs[i].Left < 0) || (chrs[i].Left + chrs[i].Width > ClientSize.Width))
+                    {
+                        chrs[i].Left -= iVX[i];
+                        iVX[i] = -iVX[i];
+                    }
+
+                    if ((chrs[i].Top < 0) || (chrs[i].Top + chrs[i].Height > ClientSize.Height))
+                    {
+                        chrs[i].Top -= iVY[i];
+                        iVY[i] = -iVY[i];
+                    }
+                    //マウスで停止
+                    if ((chrs[i].Left < cpos.X) && (chrs[i].Left + chrs[i].Width > cpos.X) && (chrs[i].Top < cpos.Y) && (chrs[i].Top + chrs[i].Height > cpos.Y))
+                    {
+
+                        //iVX[i] = 0;
+                        //iVY[i] = 0;
+                        chrs[i].Visible = false;
+                        a--;
+                        label4.Text = a.ToString();
+                    }
+
+
+                    if (a == 0)
+                    {
+                        label2.Text="クリア!!";
+                    }
+
                 }
 
                 
@@ -156,6 +213,16 @@ namespace mouse
                 }
             }
             MessageBox.Show("iは" + i);
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
         }
 
 
