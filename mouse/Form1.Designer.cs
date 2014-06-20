@@ -34,11 +34,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // timer1
             // 
             this.timer1.Enabled = true;
+            this.timer1.Interval = 5;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // label1
@@ -57,9 +59,9 @@
             this.label2.Font = new System.Drawing.Font("MS UI Gothic", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label2.Location = new System.Drawing.Point(225, 9);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(107, 37);
+            this.label2.Size = new System.Drawing.Size(107, 74);
             this.label2.TabIndex = 1;
-            this.label2.Text = "label2";
+            this.label2.Text = "label2\r\n\r\n";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // button1
@@ -82,11 +84,22 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("MS UI Gothic", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label3.Location = new System.Drawing.Point(281, 384);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(112, 35);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Time:0\r\n";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(561, 484);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
@@ -105,6 +118,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label3;
     }
 }
 

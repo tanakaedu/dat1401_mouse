@@ -11,12 +11,19 @@ namespace mouse
 {
     public partial class Form1 : Form
     {
-        Label[] chrs = new Label[100];
-        int[] iVX = new int[100];
-        int[] iVY = new int[100];
-        
-        int iVelX = rand.Next(10);
-        int iVelY = rand.Next(10);
+        const int TEXI_MAX = 2001;
+
+        Label[] chrs = new Label[TEXI_MAX];
+        int[] iVX = new int[TEXI_MAX];
+        int[] iVY = new int[TEXI_MAX];
+
+        int iVelX = rand.Next(15);
+        int iVelY = rand.Next(15);
+
+        int chrnum;
+        int time;
+
+       
 
         private static Random rand = new Random();
 
@@ -25,25 +32,37 @@ namespace mouse
         //特別な関数
         public Form1()
         {
+            chrnum = TEXI_MAX;
+
+            time = 500;
+
             InitializeComponent();
             
             //ラベルの生成
-            for (int i = 0; i < 100; i++)
+
+            for (int i = 0; i < TEXI_MAX; i++)
             {
                 chrs[i] = new Label();
                 chrs[i].AutoSize = true; //ミソ
-                chrs[i].Text = "(▼皿▼ノノ)";
+                chrs[i].Text = "(▼＜▼ノ)";
                 chrs[i].Left = rand.Next(ClientSize.Width);
                 chrs[i].Top = rand.Next(ClientSize.Height);
+                chrs[i].Font = new Font("HGS創英角ﾎﾟｯﾌﾟ体",15);
+                chrs[i].ForeColor = Color.FromArgb(120,60,120);
                 Controls.Add(chrs[i]);//フォームに追加
 
-                iVX[i] = rand.Next(100);
-                iVY[i] = rand.Next(100);
+                iVX[i] = rand.Next(-10,10);
+                iVY[i] = rand.Next(-10,10);
             }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            if (chrnum > 0)
+            {
+                time--;
+                label3.Text = "Time:" + time;
+            }
             try
             {
                 // 2次元クラスPoint型の変数cposを宣言
@@ -60,6 +79,7 @@ namespace mouse
                 label1.Top = cpos.Y;
                 int vx = iVelX;
                 int vy = iVelY;
+              
 
                 label2.Left +=  vx;
                 label2.Top +=   vy;
@@ -86,6 +106,7 @@ namespace mouse
                 //条件２cpos.xは.label2.left+label2.Wideth未満
                 //条件３cpos.ｙは.label2.Top以上
                 //条件４cpos.ｙは.label2.Top+label2.Height未満
+
                 if(     ( cpos.X >= label2.Left ) 
                     && (cpos.X < label2.Left+label2.Width)
                     && (cpos.Y >= label2.Top  ) 
@@ -93,8 +114,48 @@ namespace mouse
                 {
                     iVelX = 0;
                     iVelY = 0;
+                    label2.Visible = false;
                 }
 
+                //ラベルを動かす
+                for (int i = 0; i < TEXI_MAX; i++)
+                {
+                    //キャラクターが有効か
+                    if (chrs[i].Visible == false)
+                    {
+                        continue;
+                    }
+
+                    //ラベルの移動
+                    chrs[i].Left += iVX[i];
+                    chrs[i].Top += iVY[i];
+                    //ラベルの跳ね返り
+                    if ((chrs[i].Left < 0) || (chrs[i].Left + chrs[i].Width > ClientSize.Width))
+                    {
+                        chrs[i].Left -= iVX[i];
+                        iVX[i] = -iVX[i];
+                    }
+                    if ((chrs[i].Top < 0) || (chrs[i].Top + chrs[i].Height > ClientSize.Height))
+                    {
+                        chrs[i].Top -= iVY[i];
+                        iVY[i] = -iVY[i];
+                    }
+                    //マウスとの当たり判定
+                    if (    (  cpos.X>= chrs[i].Left)
+                     && (cpos.X < chrs[i].Left+chrs[i].Width)
+                     && ( cpos.Y >= chrs[i].Top)
+                     && (cpos.X < chrs[i].Top + ClientSize.Height))
+                    {
+                        iVX[i] = 0;
+                        iVY[i] = 0;
+                        chrs[i].Visible = false;
+                        chrnum--;
+                        if (chrnum == 0)
+                        {
+                            MessageBox.Show("クリア");
+                        }
+                    }
+                }
             }
             /*
              
