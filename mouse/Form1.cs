@@ -11,14 +11,18 @@ namespace mouse
 {
     public partial class Form1 : Form
     {
-        Label[] chrs = new Label[10];
-        int[] iVX = new int[15];
-        int[] iVY = new int[15];
-        
+        const int TEKI_MAX = 50;
+
+        int chrnum;
+        int time;
+
+        Label[] chrs = new Label[TEKI_MAX];
+        int[] iVX = new int[TEKI_MAX];
+        int[] iVY = new int[TEKI_MAX];
 
         
-        int iVelX = rand.Next(10);
-        int iVelY = rand.Next(10);
+        int iVelX = rand.Next(-15,15);
+        int iVelY = rand.Next(-15,15);
         private static Random rand = new Random();
 
         //コンストラクタ
@@ -26,25 +30,35 @@ namespace mouse
         //特別な関数
         public Form1()
         {
+            chrnum = TEKI_MAX;
+            time = 0;
+
             InitializeComponent();
             
             //ラベルの生成
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < TEKI_MAX; i++)
             {
                 chrs[i] = new Label();
                 chrs[i].AutoSize = true; //ミソ
-                chrs[i].Text = "・";
+                chrs[i].Text = "j(´-｀)し";
                 chrs[i].Left = rand.Next(ClientSize.Width);
                 chrs[i].Top = rand.Next(ClientSize.Height);
+                chrs[i].Font = new Font("ＭＳ 明朝",12);
+                chrs[i].ForeColor = Color.FromArgb(255, 0, 0);
                 Controls.Add(chrs[i]); //フォームに追加
 
-                iVX[i] = rand.Next(-20, 0);
-                iVY[i] = rand.Next(-20, 0);
+                iVX[i] = rand.Next(-100,99);
+                iVY[i] = rand.Next(-100,99);
             }
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void timer1_Tick  (object sender, EventArgs e)
         {
+            if(chrnum > 0)
+            {
+                time++;
+                label5.Text = "Time:" + time;
+            }
             //2次元クラスPoint型の変数cposを宣言
             Point cpos;
             // cposに、マウスのフォーム座標を取り出す
@@ -53,11 +67,12 @@ namespace mouse
             // フォームにマウス座標を表示
             Text = "" + cpos.X + "," + cpos.Y;
             label1.Left = cpos.X;
-            //label1.Top = cpos.Y;
+            label1.Top = cpos.Y;
 
             //ラベル2の移動
             try
             {
+
                 int vx = iVelX;
                 int vy = iVelY;
 
@@ -76,8 +91,46 @@ namespace mouse
                 }
                 if((label2.Left < cpos.X) && (label2.Left + label2.Width > cpos.X) && (label2.Top < cpos.Y) && (label2.Top + label2.Height > cpos.Y))
                 {
-                    iVelX = rand.Next(-10,10);
-                    iVelY = rand.Next(-10,0);
+                    iVelX = rand.Next(-20,20);
+                    iVelY = rand.Next(-20,0);
+                }
+
+                for (int i = 0; i < TEKI_MAX; i++)
+                {
+
+                    if (chrs[i].Visible == false)
+                    {
+                        continue;
+                    }
+                    //ラベルの移動
+                    chrs[i].Left += iVX[i];
+                    chrs[i].Top += iVY[i];
+                    //ラベルの跳ね返り
+                    if ((chrs[i].Left<0)||(chrs[i].Left+chrs[i].Width>ClientSize.Width))
+                    {
+                        chrs[i].Left -= iVX[i];
+                        iVX[i] = -iVX[i];
+                    }
+                    if ((chrs[i].Top < 0) || (chrs[i].Top + chrs[i].Height > ClientSize.Height))
+                    {
+                        chrs[i].Left -= iVY[i];
+                        iVY[i] = -iVY[i];
+                    }
+                    //マウスとの当たり判定
+                    if ((chrs[i].Left < cpos.X) && (chrs[i].Left + chrs[i].Width > cpos.X) && (chrs[i].Top < cpos.Y) && (chrs[i].Top + chrs[i].Height > cpos.Y))
+                    {
+                        //iVX[i] = 0;//rand.Next(-99, 100);
+                        //iVY[i] = 0;//rand.Next(-99, 100);
+                        chrs[i].Visible = false;
+                        chrnum--;
+                        label4.Text = chrnum.ToString();
+                        if (chrnum == 0)
+                        {
+                            label3.Visible = true;
+                        }
+                    }
+                    
+
                 }
                
             }
@@ -90,8 +143,8 @@ namespace mouse
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            iVelX = rand.Next(10);
-            iVelY = rand.Next(10);
+            iVelX = rand.Next(15);
+            iVelY = rand.Next(15);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -127,6 +180,11 @@ namespace mouse
                 }
             }
             MessageBox.Show("iは" + i);
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
