@@ -11,12 +11,17 @@ namespace Mouse
 {
     public partial class Form1 : Form
     {
-        Label[] chrs = new Label[10];
-        int []iVX = new int [10];
-        int [] iVY = new int[10];
+        const int Enemy_Max = 10;
 
-        int iVelX = rand.Next(-50,51);
-        int iVelY = rand.Next(-50,51);
+        int enemynum;
+        int time;
+
+        Label[] chrs = new Label[Enemy_Max];
+        int[] iVX = new int[Enemy_Max];
+        int[] iVY = new int[Enemy_Max];
+
+        int iVelX = rand.Next(-15,16);
+        int iVelY = rand.Next(-15,16);
 
         private static Random rand = new Random();
 
@@ -25,20 +30,27 @@ namespace Mouse
         // 特別な関数
         public Form1()
         {
+            int i;
+
+            enemynum = Enemy_Max;
+            time = 0;
+
             InitializeComponent();
 
             // ラベルの生成
-            for (int i = 0; i < 10; i++)
+            for (i = 0; i < Enemy_Max; i++)
             {
                 chrs[i] = new Label();
                 chrs[i].AutoSize = true; // ミソ
                 chrs[i].Text = "（*^_^*）";
                 chrs[i].Left = rand.Next(ClientSize.Width);
                 chrs[i].Top = rand.Next(ClientSize.Height);
+                // chrs[i].Font = new Font("フォント名", サイズ); // フォントの変更
+                // chrs[i].ForeColor = Color.FromArgb(R, G, B); //フォントカラー
                 Controls.Add(chrs[i]); // フォームに追加
 
-                iVX[i] = rand.Next(-50, 51);
-                iVY[i] = rand.Next(-50, 51);
+                iVX[i] = rand.Next(-20, 21);
+                iVY[i] = rand.Next(-20, 21);
             }
         }
 
@@ -46,6 +58,12 @@ namespace Mouse
         {
             try
             {
+                if (enemynum > 0)
+                {
+                    time++;
+                    label3.Text = "Time:" + time;
+                }
+
                 // textBoxからintの変数に値を取得
                 int vx = iVelX;
                 int vy = iVelY;
@@ -75,7 +93,7 @@ namespace Mouse
                     iVelX = -vx;
                 }
                 // ラベルが上下オーバーした時
-                if ((label2.Top < 0) || (label2.Top + label2.Height > ClientSize.Height))
+                if ((label2.Top < 0) || (label2.Top + label2.Height> ClientSize.Height))
                 {
                     // 上下反転させる
                     label2.Top -= vy;
@@ -112,11 +130,52 @@ namespace Mouse
                      && (cpos.Y < label2.Top + label2.Height))
                    {
                         // 止める:速度が0になればよい
-                       iVelX = 0;
-                       iVelY = 0;
+                       label2.Visible = false;
                    }
-                
+                   
+                   // ラベルを動かす
+                for (int i = 0; i < Enemy_Max; i++)
+                {
+                    // キャラクタが有効か
+                    if (chrs[i].Visible == false)
+                    {
+                        continue;
+                    }
 
+                    // ラベルの移動
+                    chrs[i].Left += iVX[i];
+                    chrs[i].Top += iVY[i];
+
+                    // ラベルの跳ね返り
+                    if ((chrs[i].Left < 0) || (chrs[i].Left + chrs[i].Width > ClientSize.Width))
+                    {
+                        // 左右反転させる
+                        chrs[i].Left -= vx;
+                        iVX[i] = -vx;
+                    }
+                    // ラベルが上下オーバーした時
+                    if ((chrs[i].Top < 0) || (chrs[i].Top+ chrs[i].Height > ClientSize.Height))
+                    {
+                        // 上下反転させる
+                        chrs[i].Top -= vy;
+                        iVY[i] = -vy;
+                    }
+
+                    // マウスとの当たり判定
+                    if ((cpos.X >= chrs[i].Left)
+                     && (cpos.X < chrs[i].Left + chrs[i].Width)
+                     && (cpos.Y >= chrs[i].Top)
+                     && (cpos.Y < chrs[i].Top + chrs[i].Height))
+                    {
+                        // 消す
+                        chrs[i].Visible = false;
+                        enemynum--;
+                    }
+                    if (enemynum == 0)
+                    {
+                        MessageBox.Show("Clear");
+                    }
+                }
             }
             catch (Exception ee)
             {
