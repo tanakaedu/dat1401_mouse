@@ -12,10 +12,13 @@ namespace mouse
 {
     public partial class Form1 : Form
     {
-        const int TEKI_MAX = 2;
+        const int TEKI_MAX = 20;
+        const int TEKI_VEL_MAX = 400;   // 敵の最高速度(秒速)
 
         int chrnum;
         int time;
+
+        long lastTime;
 
         Label[] chrs = new Label[TEKI_MAX];
         int[] iVX = new int[TEKI_MAX];
@@ -50,8 +53,8 @@ namespace mouse
                 chrs[i].ForeColor = Color.FromArgb(255, 0, 0);
                 Controls.Add(chrs[i]); // フォームに追加
 
-                iVX[i] = rand.Next(-20, 21);
-                iVY[i] = rand.Next(-20, 21);
+                iVX[i] = rand.Next(-TEKI_VEL_MAX, TEKI_VEL_MAX+1);
+                iVY[i] = rand.Next(-TEKI_VEL_MAX, TEKI_VEL_MAX+1);
             }
         }
 
@@ -62,6 +65,11 @@ namespace mouse
                 time++;
                 label3.Text = "Time:" + time+":"+stwatch.ElapsedMilliseconds ;
             }
+
+            // 経過時間を算出
+            long deltaTime = stwatch.ElapsedMilliseconds - lastTime;
+            lastTime = stwatch.ElapsedMilliseconds;
+            label3.Text += ":" + deltaTime;
 
             // 2次元クラスPoint型の変数cposを宣言
             Point cpos;
@@ -128,21 +136,21 @@ namespace mouse
                 }
 
                 // ラベルの移動
-                chrs[i].Left += iVX[i];
-                chrs[i].Top += iVY[i];
+                chrs[i].Left += iVX[i] * (int)deltaTime / 1000;
+                chrs[i].Top += iVY[i] * (int)deltaTime / 1000;
 
                 // ラベルの跳ね返り
                 // 跳ね返り
                 if (    (chrs[i].Left < 0)
                     ||  ((chrs[i].Left + chrs[i].Width) > ClientSize.Width))
                 {
-                    chrs[i].Left -= iVX[i];
+                    chrs[i].Left -= iVX[i]*(int)deltaTime/1000;
                     iVX[i] = -iVX[i];
                 }
                 if (    (chrs[i].Top < 0)
                     ||  ((chrs[i].Top + chrs[i].Height) > ClientSize.Height))
                 {
-                    chrs[i].Top -= iVY[i];
+                    chrs[i].Top -= iVY[i] * (int)deltaTime / 1000;
                     iVY[i] = -iVY[i];
                 }
 
