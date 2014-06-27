@@ -12,6 +12,24 @@ namespace mouse
 {
     public partial class Form1 : Form
     {
+        // 状態遷移関連
+        // 無効シーン
+        const int SC_NONE = -1;
+        // 起動
+        const int SC_BOOT = 0;
+        // タイトルシーン
+        const int SC_TITLE = 1;
+        // ゲームシーン
+        const int SC_GAME = 2;
+        // ゲームオーバー
+        const int SC_GAMEOVER = 3;
+
+        // 現在のシーン
+        int iNowScene = SC_NONE;
+        // 次のシーン
+        int iNextScene = SC_BOOT;
+
+
         const int TEKI_MAX = 20;
         const int TEKI_VEL_MAX = 400;   // 敵の最高速度(秒速)
 
@@ -35,11 +53,39 @@ namespace mouse
         // 特別な関数
         public Form1()
         {
+            InitializeComponent();
+        }
+
+        /// <summary>
+        /// 初期化処理
+        /// </summary>
+        void init()
+        {
+            // シーンの切り替えがあるか
+            if (iNextScene == SC_NONE)
+            {
+                return;
+            }
+
+            // シーンの切り替え
+            iNowScene = iNextScene;
+            iNextScene = SC_NONE;
+
+            // 初期化処理
+            switch (iNowScene)
+            {
+                case SC_BOOT:
+                    initBoot();
+                    break;
+            }
+        }
+
+        void initBoot()
+        {
+            iNextScene = SC_TITLE;
             chrnum = TEKI_MAX;
             time = 0;
             stwatch.Start();    // ストップウォッチを動かす
-
-            InitializeComponent();
 
             // ラベルの生成
             for (int i = 0; i < TEKI_MAX; i++)
@@ -53,78 +99,79 @@ namespace mouse
                 chrs[i].ForeColor = Color.FromArgb(255, 0, 0);
                 Controls.Add(chrs[i]); // フォームに追加
 
-                iVX[i] = rand.Next(-TEKI_VEL_MAX, TEKI_VEL_MAX+1);
-                iVY[i] = rand.Next(-TEKI_VEL_MAX, TEKI_VEL_MAX+1);
+                iVX[i] = rand.Next(-TEKI_VEL_MAX, TEKI_VEL_MAX + 1);
+                iVY[i] = rand.Next(-TEKI_VEL_MAX, TEKI_VEL_MAX + 1);
             }
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        // 2次元クラスPoint型の変数cposを宣言
+        Point cpos;
+
+        /// <summary>
+        /// 入力の確定
+        /// </summary>
+        void input()
         {
-            if (chrnum > 0)
-            {
-                time++;
-                label3.Text = "Time:" + time+":"+stwatch.ElapsedMilliseconds ;
-            }
-
-            // 経過時間を算出
-            long deltaTime = stwatch.ElapsedMilliseconds - lastTime;
-            lastTime = stwatch.ElapsedMilliseconds;
-            label3.Text += ":" + deltaTime;
-
-            // 2次元クラスPoint型の変数cposを宣言
-            Point cpos;
-
             // cposに、マウスのフォーム座標を取り出す
             cpos = this.PointToClient(MousePosition);
 
             // ラベル(フォーム)にマウス座標を表示
             Text = "" + cpos.X + "," + cpos.Y;
 
+            // クリックの更新
+            isClicked = isClick;
+            isClick = false;
+        }
+
+        bool isClicked = false; // input()でisClickをコピーする
+        bool isClick = false;   // クリックされた瞬間にtrueにする
+        /// <summary>
+        /// 更新処理
+        /// </summary>
+        void update()
+        {
+            switch (iNowScene)
+            {
+                case SC_TITLE:
+                    if (isClicked) iNextScene = SC_GAME;
+                    break;
+                case SC_GAME:
+                    updateGame();
+                    break;
+                case SC_GAMEOVER:
+                    break;
+            }
+        }
+
+        long deltaTime = 0;
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            // 経過時間を算出
+            deltaTime = stwatch.ElapsedMilliseconds - lastTime;
+            lastTime = stwatch.ElapsedMilliseconds;
+            //label3.Text += ":" + deltaTime;
+
+            // 初期化
+            init();
+
+            // 入力
+            input();
+
+            // 更新
+            update();
+        }
+
+        /// <summary>
+        /// ゲームの更新処理
+        /// </summary>
+        void updateGame()
+        {
+            time+=(int)deltaTime;
+            label3.Text = "Time:" + time + ":" + stwatch.ElapsedMilliseconds;
+
             // マウス座標にラベルをくっつけてみよう。
             label1.Left = cpos.X;
             label1.Top = cpos.Y;
-
-
-            // ラベル2の移動
-            int vx = iVelX;
-            int vy = iVelY;
-            label2.Left += vx;
-            label2.Top += vy;
-
-            // 跳ね返り
-            if ((label2.Left < 0) || ((label2.Left + label2.Width) > ClientSize.Width))
-            {
-                label2.Left -= vx;
-                iVelX = -vx;
-            }
-            if ((label2.Top < 0) || ((label2.Top + label2.Height) > ClientSize.Height))
-            {
-                label2.Top -= vy;
-                iVelY = -vy;
-            }
-            
-
-            // マウスカーソルと重なったら
-            // タイマー停止 or 表情変更
-            
-            // cpos.x：マウスのX座標
-            // cpos.y：マウスのY座標
-            // if ((条件1) && (条件2) && (条件3) && (条件4))
-            // →条件１～４まで全部成立した時のif文
-            // label2とcposの関係を確認する
-            // 条件1：cpos.xは、label2.Left以上
-            // 条件2：cpos.xは、label2.Left+label2.Width未満
-            // 条件3：cpos.yは、label2.Top以上
-            // 条件4：cpos.yは、label2.Top+label2.Height未満
-            if (    (cpos.X >= label2.Left)
-                &&  (cpos.X < label2.Left+label2.Width)
-                &&  (cpos.Y >= label2.Top)
-                &&  (cpos.Y < label2.Top+label2.Height))
-            {
-                // 止める:速度が0になればよい
-                iVelX = 0;
-                iVelY = 0;
-            }
 
             // ラベルを動かす
             for (int i = 0; i < TEKI_MAX; i++)
@@ -141,14 +188,14 @@ namespace mouse
 
                 // ラベルの跳ね返り
                 // 跳ね返り
-                if (    (chrs[i].Left < 0)
-                    ||  ((chrs[i].Left + chrs[i].Width) > ClientSize.Width))
+                if ((chrs[i].Left < 0)
+                    || ((chrs[i].Left + chrs[i].Width) > ClientSize.Width))
                 {
-                    chrs[i].Left -= iVX[i]*(int)deltaTime/1000;
+                    chrs[i].Left -= iVX[i] * (int)deltaTime / 1000;
                     iVX[i] = -iVX[i];
                 }
-                if (    (chrs[i].Top < 0)
-                    ||  ((chrs[i].Top + chrs[i].Height) > ClientSize.Height))
+                if ((chrs[i].Top < 0)
+                    || ((chrs[i].Top + chrs[i].Height) > ClientSize.Height))
                 {
                     chrs[i].Top -= iVY[i] * (int)deltaTime / 1000;
                     iVY[i] = -iVY[i];
@@ -172,8 +219,8 @@ namespace mouse
                     //iVY = 0;
                 }
             }
-
         }
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -207,6 +254,11 @@ namespace mouse
                 MessageBox.Show(i.ToString());
             }
             MessageBox.Show("iは" + i);
+        }
+
+        private void Form1_Click(object sender, EventArgs e)
+        {
+            isClick = true;
         }
     }
 }
