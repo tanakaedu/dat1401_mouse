@@ -77,7 +77,84 @@ namespace mouse
                 case SC_BOOT:
                     initBoot();
                     break;
+                    // タイトル画面へ
+                case SC_TITLE:
+                    initTitle();
+                    break;
+                    // ゲームへ
+                case SC_GAME:
+                    initGame();
+                    break;
+                    // ゲームオーバーへ
+                case SC_GAMEOVER:
+                    initGameover();
+                    break;
             }
+        }
+
+        int iHighScore = 10000;
+        void initGameover()
+        {
+            // ゲームオーバーを表示
+            lbClear.Visible = true;
+            // ハイスコアの記録
+            if (time < iHighScore)
+            {
+                iHighScore = time;
+                // ハイスコア表示
+                lbHISC.Text = "HISC:" + iHighScore;
+                MessageBox.Show("ハイスコア！");
+            }
+        }
+
+        void initGame()
+        {
+            // タイムの初期化(スコア初期化)
+            time = 0;
+            // プレイヤーの初期位置を設定
+            label1.Left =
+                (ClientSize.Width-label1.Width )/2;
+            label1.Top =
+                (ClientSize.Height - label1.Height) / 2;
+            label1.Visible = true;
+
+            // 敵の初期化
+            for (int i = 0; i < TEKI_MAX; i++)
+            {
+                // 表示
+                chrs[i].Visible = true;
+                chrs[i].Text = "（▼皿▼)";
+                // 座標の初期化
+                chrs[i].Left = rand.Next(ClientSize.Width);
+                chrs[i].Top = rand.Next(ClientSize.Height);
+                // 速度の設定
+                iVX[i] = rand.Next(-TEKI_VEL_MAX, TEKI_VEL_MAX + 1);
+                iVY[i] = rand.Next(-TEKI_VEL_MAX, TEKI_VEL_MAX + 1);
+            }
+
+            // 敵の数の初期化
+            chrnum = TEKI_MAX;
+
+            // タイトルを消す
+            lbTitle.Visible = false;
+        }
+
+        void initTitle()
+        {
+            // タイトルを表示
+            lbTitle.Visible = true;
+            // クリアを消す
+            lbClear.Visible = false;
+            // プレイヤーを消す
+            label1.Visible = false;
+            // 敵を消す
+            // for (int i=0 ; i<chrs.Length ; i++)
+            foreach (Label lb in chrs)
+            {
+                lb.Visible = false;
+            }
+            // ハイスコア表示
+            lbHISC.Text = "HISC:" + iHighScore;
         }
 
         void initBoot()
@@ -139,6 +216,7 @@ namespace mouse
                     updateGame();
                     break;
                 case SC_GAMEOVER:
+                    if (isClicked) iNextScene = SC_TITLE;
                     break;
             }
         }
@@ -167,7 +245,7 @@ namespace mouse
         void updateGame()
         {
             time+=(int)deltaTime;
-            label3.Text = "Time:" + time + ":" + stwatch.ElapsedMilliseconds;
+            label3.Text = "Time:" + time/* + ":" + stwatch.ElapsedMilliseconds*/;
 
             // マウス座標にラベルをくっつけてみよう。
             label1.Left = cpos.X;
@@ -212,7 +290,8 @@ namespace mouse
                     chrnum--;
                     if (chrnum == 0)
                     {
-                        MessageBox.Show("clear");
+                        iNextScene = SC_GAMEOVER;
+                        //MessageBox.Show("clear");
                     }
                     // 止める:速度が0になればよい
                     //iVX = 0;
